@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/ncwu-logo.png" />
+    <title>26 Second Semester Class Schedule</title>
+    <script>
+      // Prevent flash of wrong theme
+      (function() {
+        const storageKey = 'cst26-theme';
+        const stored = localStorage.getItem(storageKey);
+        let theme = 'dark';
+        
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored);
+            theme = parsed.theme || 'dark';
+          } catch (e) {
+            theme = 'dark';
+          }
+        }
+        
+        if (theme === 'system') {
+          if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+          } else {
+            document.documentElement.classList.remove('light');
+            document.documentElement.classList.add('dark');
+          }
+        } else if (theme === 'light') {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.classList.add('light');
+        } else {
+          document.documentElement.classList.remove('light');
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
