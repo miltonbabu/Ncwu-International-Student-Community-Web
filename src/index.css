@@ -1035,27 +1035,26 @@ button {
 }
 
 .stagger-animation > * {
-  opacity: 0;
-  animation: fade-in-up 0.6s ease-out forwards;
+  animation: fade-in-up 0.6s ease-out both;
 }
 
 .stagger-animation > *:nth-child(1) {
-  animation-delay: 0.1s;
+  animation-delay: 0.05s;
 }
 .stagger-animation > *:nth-child(2) {
-  animation-delay: 0.2s;
+  animation-delay: 0.1s;
 }
 .stagger-animation > *:nth-child(3) {
-  animation-delay: 0.3s;
+  animation-delay: 0.15s;
 }
 .stagger-animation > *:nth-child(4) {
-  animation-delay: 0.4s;
+  animation-delay: 0.2s;
 }
 .stagger-animation > *:nth-child(5) {
-  animation-delay: 0.5s;
+  animation-delay: 0.25s;
 }
 .stagger-animation > *:nth-child(6) {
-  animation-delay: 0.6s;
+  animation-delay: 0.3s;
 }
 
 .chinese-decorative-border {
