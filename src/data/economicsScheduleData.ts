@@ -118,7 +118,6 @@ function createClassSession(
   startTime: string,
   endTime: string,
   week: number,
-  notes?: string
 ): ClassSession {
   const colors = subjectColors[subject] || {
     bg: 'bg-slate-500/20',
@@ -178,7 +177,6 @@ export const economicsScheduleData: ClassSession[] = rawData.flatMap((item, inde
       startTime,
       endTime,
       week,
-      item.notes
     )
   );
 });

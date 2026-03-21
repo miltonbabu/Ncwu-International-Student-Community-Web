@@ -372,7 +372,7 @@ function CampusMapContent() {
           className={`rounded-2xl p-6 ${isDark ? "bg-blue-500/10 border border-blue-500/30" : "bg-blue-50 border border-blue-200"}`}
         >
           <div className="flex items-start gap-4">
-            <Navigation
+            <MapPin
               className={`w-6 h-6 mt-0.5 ${isDark ? "text-blue-400" : "text-blue-600"}`}
             />
             <div>

@@ -22,7 +22,6 @@ import {
   Car,
   CreditCard,
 } from "lucide-react";
-import ncwuLogo from "@/assets/ncwu-logo.png";
 import heroImage from "@/assets/hero-image.jpg";
 
 function HomePageContent() {

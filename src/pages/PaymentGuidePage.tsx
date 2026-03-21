@@ -7,7 +7,6 @@ import {
   CreditCard,
   Wallet,
   Building2,
-  ArrowRightLeft,
   CheckCircle,
   AlertCircle,
   Smartphone,

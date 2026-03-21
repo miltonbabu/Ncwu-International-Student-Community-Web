@@ -152,7 +152,7 @@ export function VocabularyList({ words, title, onClose }: VocabularyListProps) {
       </div>
 
       <div className="grid gap-3">
-        {filteredWords.map((word, index) => (
+        {filteredWords.map((word) => (
           <div
             key={word.id}
             className={`rounded-xl overflow-hidden transition-all duration-300 ${

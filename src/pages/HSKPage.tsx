@@ -1,20 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useTheme } from "@/components/ThemeProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
 import { VocabularyList } from "@/components/VocabularyList";
 import { hsk1Vocabulary } from "@/data/hsk1Vocabulary";
+import ncwuLogo from "@/assets/ncwu-logo.png";
 import {
-  Globe,
   BookOpen,
   GraduationCap,
-  Trophy,
   Headphones,
-  MessageCircle,
-  ChevronDown,
-  Search,
-  X,
+  ChevronRight,
+  ArrowRight,
+  ArrowLeft,
+  Home,
+  PenTool,
+  MessageSquare,
+  FileText,
 } from "lucide-react";
 
 type ViewState = "main" | "hsk1";

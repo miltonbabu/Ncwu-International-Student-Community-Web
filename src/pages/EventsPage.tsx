@@ -9,7 +9,6 @@ import {
   Gift,
   BookOpen,
   Clock,
-  MapPin,
   ChevronLeft,
   ChevronRight,
   Star,

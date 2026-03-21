@@ -7,13 +7,11 @@ import {
   Shield,
   AlertTriangle,
   Building,
-  Flag,
   Heart,
   Car,
   Flame,
   MapPin,
   Clock,
-  MessageCircle,
 } from "lucide-react";
 
 interface EmergencyContact {

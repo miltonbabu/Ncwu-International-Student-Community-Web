@@ -15,7 +15,6 @@ import {
   Gamepad2,
   ChevronDown,
   CheckCircle,
-  ExternalLink,
 } from "lucide-react";
 
 interface App {

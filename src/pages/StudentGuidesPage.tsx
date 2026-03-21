@@ -12,13 +12,11 @@ import {
   Home,
   Lightbulb,
   MapPin,
-  Clock,
   Smartphone,
   CurrencyIcon,
   Award,
   AlertCircle,
   CheckCircle,
-  ExternalLink,
 } from "lucide-react";
 
 interface GuideSection {
@@ -634,7 +632,6 @@ function StudentGuidesContent() {
 
         <div className="space-y-4">
           {sections.map((section) => {
-            const Icon = section.icon;
             const isOpen = openSections.includes(section.id);
 
             return (
