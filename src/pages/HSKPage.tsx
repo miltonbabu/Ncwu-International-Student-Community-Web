@@ -6,6 +6,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { Navigation } from "@/components/Navigation";
 import { VocabularyList } from "@/components/VocabularyList";
 import { hsk1Vocabulary } from "@/data/hsk1Vocabulary";
+import { hsk2Vocabulary } from "@/data/hsk2Vocabulary";
 import ncwuLogo from "@/assets/ncwu-logo.png";
 import {
   BookOpen,
@@ -20,7 +21,7 @@ import {
   FileText,
 } from "lucide-react";
 
-type ViewState = "main" | "hsk1";
+type ViewState = "main" | "hsk1" | "hsk2";
 
 function HSKPageContent() {
   const { resolvedTheme } = useTheme();
@@ -44,6 +45,7 @@ function HSKPageContent() {
       description: "Elementary - 300 words",
       color: "from-blue-500 to-cyan-600",
       icon: BookOpen,
+      action: () => setCurrentView("hsk2"),
     },
     {
       level: "HSK 3",
@@ -205,6 +207,127 @@ function HSKPageContent() {
               </div>
               <p
                 className={`text-sm ${isDark ? "text-emerald-400/40" : "text-emerald-600"}`}
+              >
+                © 2024 NCWU. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </footer>
+      </div>
+    );
+  }
+
+  if (currentView === "hsk2") {
+    return (
+      <div
+        className={`min-h-screen relative overflow-hidden chinese-pattern-bg ${isDark ? "bg-slate-950" : "bg-slate-50"}`}
+      >
+        <div className="fixed inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
+          <div
+            className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse"
+            style={{ animationDelay: "1s" }}
+          />
+        </div>
+
+        <header
+          className={`relative z-50 sticky top-0 backdrop-blur-xl ${isDark ? "bg-slate-950/80 border-blue-500/20" : "bg-white/80 border-blue-200"} border-b`}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              <div className="flex items-center gap-3">
+                <img
+                  src={ncwuLogo}
+                  alt="NCWU Logo"
+                  className="w-10 h-10 rounded-xl object-contain transition-transform duration-300 hover:scale-110"
+                />
+                <div className="hidden sm:block">
+                  <h1 className="text-lg font-bold bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">
+                    HSK 2 Vocabulary
+                  </h1>
+                  <p
+                    className={`text-xs font-medium ${isDark ? "text-blue-300/60" : "text-blue-700"}`}
+                  >
+                    NCWU International
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => setCurrentView("main")}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all ${
+                    isDark
+                      ? "bg-white/10 hover:bg-white/20 text-white"
+                      : "bg-slate-100 hover:bg-slate-200 text-slate-900"
+                  }`}
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span className="hidden sm:inline">Back</span>
+                </button>
+                <ThemeToggle />
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div
+          className={`relative z-10 border-b ${isDark ? "border-blue-500/10 bg-blue-500/5" : "border-blue-200 bg-blue-50"}`}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <nav className="flex items-center gap-2 text-sm">
+              <Link to="/" className="nav-link-chinese flex items-center gap-1">
+                <Home className="w-4 h-4" />
+                <span>Home</span>
+              </Link>
+              <ChevronRight
+                className={`w-4 h-4 ${isDark ? "text-blue-500/40" : "text-blue-400"}`}
+              />
+              <button
+                onClick={() => setCurrentView("main")}
+                className="nav-link-chinese"
+              >
+                HSK
+              </button>
+              <ChevronRight
+                className={`w-4 h-4 ${isDark ? "text-blue-500/40" : "text-blue-400"}`}
+              />
+              <span
+                className={`font-medium ${isDark ? "text-blue-300" : "text-blue-900"}`}
+              >
+                HSK 2 Vocabulary
+              </span>
+            </nav>
+          </div>
+        </div>
+
+        <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <VocabularyList
+            words={hsk2Vocabulary}
+            title="HSK 2 Vocabulary"
+            onClose={() => setCurrentView("main")}
+          />
+        </main>
+
+        <footer
+          className={`relative z-10 border-t ${isDark ? "border-blue-500/20 bg-blue-500/5" : "border-blue-200 bg-blue-50/50"} mt-12`}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <img
+                  src={ncwuLogo}
+                  alt="NCWU Logo"
+                  className="w-8 h-8 rounded-lg object-contain transition-transform duration-300 hover:scale-110"
+                />
+                <p
+                  className={`text-sm ${isDark ? "text-blue-300/50" : "text-blue-700"}`}
+                >
+                  NCWU International Student Community
+                </p>
+              </div>
+              <p
+                className={`text-sm ${isDark ? "text-blue-400/40" : "text-blue-600"}`}
               >
                 © 2024 NCWU. All rights reserved.
               </p>
