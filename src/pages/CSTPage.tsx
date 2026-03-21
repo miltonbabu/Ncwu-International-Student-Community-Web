@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ThemeProvider, useTheme } from "@/components/ThemeProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useRTL } from "@/hooks/useRTL";
 import {
   Calendar,
   BookOpen,
@@ -33,44 +35,57 @@ import {
 import ncwuLogo from "@/assets/ncwu-logo.png";
 
 function CSTPageContent() {
+  const { t } = useTranslation();
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
+  useRTL();
 
   useEffect(() => {
-    document.title = "Computer Science 2023 - NCWU";
-  }, []);
+    document.title = `${t("cst.title", "Computer Science 2023")} - NCWU`;
+  }, [t]);
 
   const batches = [
     {
-      title: "Computer Science 2023",
-      description:
+      title: t("cst.title", "Computer Science 2023"),
+      description: t(
+        "cst.scheduleDescription",
         "Class Schedule for the 2023 batch of Computer Science students - 2026 Academic Year.",
+      ),
       link: "/cst/class-schedule",
-      semester: "2026 Schedule",
-      year: "2023 Batch",
+      semester: t("cst.semester", "2026 Schedule"),
+      year: t("cst.year", "2023 Batch"),
     },
   ];
 
   const features = [
     {
       icon: Calendar,
-      title: "Weekly Schedule",
-      description: "View classes organized by day and time",
+      title: t("cst.weeklySchedule", "Weekly Schedule"),
+      description: t(
+        "cst.weeklyScheduleDesc",
+        "View classes organized by day and time",
+      ),
     },
     {
       icon: BookOpen,
-      title: "Subject Details",
-      description: "Access detailed information for each subject",
+      title: t("cst.subjectDetails", "Subject Details"),
+      description: t(
+        "cst.subjectDetailsDesc",
+        "Access detailed information for each subject",
+      ),
     },
     {
       icon: Clock,
-      title: "Time Management",
-      description: "Plan your week effectively",
+      title: t("cst.timeManagement", "Time Management"),
+      description: t("cst.timeManagementDesc", "Plan your week effectively"),
     },
     {
       icon: Users,
-      title: "Class Information",
-      description: "Know your classmates and teachers",
+      title: t("cst.classInformation", "Class Information"),
+      description: t(
+        "cst.classInformationDesc",
+        "Know your classmates and teachers",
+      ),
     },
   ];
 
@@ -330,52 +345,59 @@ function CSTPageContent() {
 
           <div className="mb-12">
             <h2 className={`text-2xl font-bold mb-6 chinese-gradient-text`}>
-              Available Batches
+              Class Schedule
             </h2>
-            <div className="grid md:grid-cols-2 gap-6 stagger-animation">
+            <div className="grid md:grid-cols-2 gap-6">
               {batches.map((batch, index) => (
                 <Link
                   key={index}
                   to={batch.link}
-                  className={`card-chinese group relative overflow-hidden rounded-2xl p-6 ${
+                  className={`group relative overflow-hidden rounded-2xl p-6 transition-all duration-300 ${
                     isDark
-                      ? "bg-gradient-to-br from-red-500/10 to-amber-500/10 hover:from-red-500/20 hover:to-amber-500/20 border border-red-500/20"
-                      : "bg-gradient-to-br from-white to-amber-50/50 hover:shadow-xl border border-red-100 shadow-md"
+                      ? "bg-slate-800 hover:bg-slate-700 border-2 border-red-500 hover:border-red-400"
+                      : "bg-white hover:bg-red-50 border-2 border-red-500 hover:border-red-600 shadow-lg hover:shadow-xl"
                   }`}
                 >
                   <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h3
-                        className={`text-2xl font-bold mb-2 ${isDark ? "text-white" : "text-slate-900"}`}
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`p-2.5 rounded-xl ${isDark ? "bg-red-500" : "bg-red-500"}`}
                       >
-                        {batch.title}
-                      </h3>
-                      <p
-                        className={`text-sm ${isDark ? "text-red-100/60" : "text-slate-600"}`}
-                      >
-                        {batch.description}
-                      </p>
+                        <Calendar className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <h3
+                          className={`text-xl font-bold ${isDark ? "text-white" : "text-slate-900"}`}
+                        >
+                          {batch.title}
+                        </h3>
+                      </div>
                     </div>
                     <ArrowRight
-                      className={`w-6 h-6 ${isDark ? "text-red-400/50 group-hover:text-red-400" : "text-red-500 group-hover:text-red-600"} transition-colors`}
+                      className={`w-5 h-5 ${isDark ? "text-red-400 group-hover:text-red-300" : "text-red-500 group-hover:text-red-600"} transition-colors`}
                     />
                   </div>
-                  <div className="flex items-center gap-4">
+                  <p
+                    className={`text-sm mb-4 ${isDark ? "text-slate-400" : "text-slate-600"}`}
+                  >
+                    {batch.description}
+                  </p>
+                  <div className="flex items-center gap-3">
                     <span
-                      className={`inline-flex items-center gap-1 text-xs px-3 py-1 rounded-full ${
+                      className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg ${
                         isDark
-                          ? "bg-red-500/20 text-red-300 border border-red-500/30"
-                          : "bg-red-100 text-red-700 border border-red-200"
+                          ? "bg-red-500 text-white"
+                          : "bg-red-500 text-white"
                       }`}
                     >
                       <Calendar className="w-3 h-3" />
                       {batch.semester}
                     </span>
                     <span
-                      className={`inline-flex items-center gap-1 text-xs px-3 py-1 rounded-full ${
+                      className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg ${
                         isDark
-                          ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
-                          : "bg-amber-100 text-amber-700 border border-amber-200"
+                          ? "bg-amber-500 text-white"
+                          : "bg-amber-500 text-white"
                       }`}
                     >
                       <Clock className="w-3 h-3" />

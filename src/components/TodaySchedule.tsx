@@ -6,7 +6,6 @@ import {
   getClassStatus,
 } from "@/hooks/useRealTimeSchedule";
 import type { ClassSession } from "@/types/schedule";
-import { scheduleData } from "@/data/scheduleData";
 import {
   Clock,
   Calendar,
@@ -204,10 +203,16 @@ function ToggleButton({
   );
 }
 
-export function TodaySchedule() {
+interface TodayScheduleProps {
+  scheduleData?: ClassSession[];
+}
+
+export function TodaySchedule({ scheduleData }: TodayScheduleProps) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
-  const { realTimeInfo, todayCourseInfo } = useRealTimeSchedule(scheduleData);
+  const { realTimeInfo, todayCourseInfo } = useRealTimeSchedule(
+    scheduleData || [],
+  );
 
   // Toggle state: true = show all classes, false = show upcoming only
   const [showAllClasses, setShowAllClasses] = useState(false);

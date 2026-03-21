@@ -1,22 +1,35 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ThemeProvider, useTheme } from "@/components/ThemeProvider";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { Navigation } from "@/components/Navigation";
+import { HeroSection } from "@/components/HeroSection";
+import { Footer } from "@/components/Footer";
+import { NewsSection } from "@/components/NewsSection";
+import { EidPopup } from "@/components/EidPopup";
+import { useRTL } from "@/hooks/useRTL";
 import {
   Calendar,
   BookOpen,
   Users,
   Globe,
   ArrowRight,
-  GraduationCap,
   Clock,
   MapPin,
+  AlertTriangle,
+  Bell,
+  Smartphone,
+  Car,
+  CreditCard,
 } from "lucide-react";
 import ncwuLogo from "@/assets/ncwu-logo.png";
+import heroImage from "@/assets/hero-image.jpg";
 
 function HomePageContent() {
+  const { t } = useTranslation();
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
+  useRTL();
 
   useEffect(() => {
     document.title = "NCWU International - Student Community";
@@ -24,45 +37,69 @@ function HomePageContent() {
 
   const sections = [
     {
-      title: "Computer Science 2023",
-      description:
-        "Computer Science class schedules, resources, and academic information for the 2023 batch.",
+      title: t("home.cstTitle", "Computer Science & Technology"),
+      description: t(
+        "home.cstDesc",
+        "CST class schedules, resources, and academic information. Access your course timetables, lab sessions, and department announcements.",
+      ),
       icon: BookOpen,
       link: "/cst",
-      color: "from-cyan-500 to-blue-500",
-      stats: "2023 Batch",
+      color: "from-blue-500 to-cyan-500",
+      stats: "Undergraduate • 2023",
+      bgColor: isDark
+        ? "bg-blue-600 hover:bg-blue-500 border-blue-400"
+        : "bg-blue-500 hover:bg-blue-600 border-blue-400",
+      iconBg: "from-blue-400 to-cyan-400",
     },
     {
-      title: "Economics 2025",
-      description:
-        "Economics department schedules and resources for the 2025 academic year.",
+      title: t("home.economicsTitle", "Economics"),
+      description: t(
+        "home.economicsDesc",
+        "Economics department schedules and resources. View your class timetables, exam schedules, and academic materials.",
+      ),
       icon: Calendar,
       link: "/economics-2025",
       color: "from-purple-500 to-pink-500",
-      stats: "2025 Batch",
+      stats: "Undergraduate • 2025",
+      bgColor: isDark
+        ? "bg-purple-600 hover:bg-purple-500 border-purple-400"
+        : "bg-purple-500 hover:bg-purple-600 border-purple-400",
+      iconBg: "from-purple-400 to-pink-400",
     },
   ];
 
   const features = [
     {
       icon: Calendar,
-      title: "Class Schedules",
-      description: "View and manage your class schedules with ease",
+      title: t("home.featureSchedules", "Class Schedules"),
+      description: t(
+        "home.featureSchedulesDesc",
+        "View and manage your class schedules with ease",
+      ),
     },
     {
       icon: Users,
-      title: "Community",
-      description: "Connect with fellow international students",
+      title: t("home.featureCommunity", "Community"),
+      description: t(
+        "home.featureCommunityDesc",
+        "Connect with fellow international students",
+      ),
     },
     {
       icon: Globe,
-      title: "Resources",
-      description: "Access academic resources and information",
+      title: t("home.featureResources", "Resources"),
+      description: t(
+        "home.featureResourcesDesc",
+        "Access academic resources and information",
+      ),
     },
     {
       icon: Clock,
-      title: "Real-time Updates",
-      description: "Stay informed with the latest schedule changes",
+      title: t("home.featureUpdates", "Real-time Updates"),
+      description: t(
+        "home.featureUpdatesDesc",
+        "Stay informed with the latest schedule changes",
+      ),
     },
   ];
 
@@ -70,6 +107,7 @@ function HomePageContent() {
     <div
       className={`min-h-screen chinese-pattern-bg chinese-wave-bg bg-gradient-to-br ${isDark ? "from-slate-900 via-red-950/30 to-slate-900" : "from-slate-50 via-amber-50/30 to-slate-50"}`}
     >
+      <EidPopup />
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-sky-500/10 via-transparent to-cyan-500/10 rounded-full blur-3xl animate-pulse" />
         <div
@@ -83,138 +121,115 @@ function HomePageContent() {
         />
       </div>
 
-      <header
-        className={`relative z-50 sticky top-0 backdrop-blur-xl ${isDark ? "bg-slate-900/80 border-red-500/20" : "bg-white/80 border-amber-200/50"} border-b`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-3">
-              <img
-                src={ncwuLogo}
-                alt="NCWU Logo"
-                className="w-10 h-10 rounded-xl object-contain transition-transform duration-300 hover:scale-110"
-              />
-              <div>
-                <h1 className={`text-lg font-bold chinese-gradient-text`}>
-                  NCWU International
-                </h1>
-                <p
-                  className={`text-xs font-medium ${isDark ? "text-sky-300/60" : "text-sky-700"}`}
-                >
-                  Student Community
-                </p>
-              </div>
-            </div>
-            <ThemeToggle />
-          </div>
-        </div>
-      </header>
+      <NewsSection />
+
+      <Navigation />
 
       <main className="relative z-10 dragon-phoenix-hero">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="text-center mb-16 animate-fade-in-up">
-            <div className="flex justify-center mb-6">
-              <div
-                className={`p-4 rounded-2xl ${isDark ? "bg-gradient-to-br from-red-500/20 to-amber-500/20 border border-red-500/30" : "bg-gradient-to-br from-red-100 to-amber-100 border border-red-200"} shadow-xl transition-transform duration-300 hover:scale-105`}
-              >
-                <GraduationCap
-                  className={`w-16 h-16 ${isDark ? "text-red-400" : "text-red-600"}`}
-                />
-              </div>
-            </div>
-            <h1
-              className={`text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 ${isDark ? "text-white" : "text-slate-900"}`}
-            >
-              Welcome to NCWU
+        <HeroSection
+          backgroundImage={heroImage}
+          subtitle={t("home.subtitle", "Welcome Home")}
+          title={
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold">
+              {t("home.welcome", "Welcome to NCWU")}
               <span className="block chinese-red-gold-text">
-                International Student Community
+                {t("home.community", "International Student Community")}
               </span>
             </h1>
-            <p
-              className={`text-lg sm:text-xl max-w-3xl mx-auto mb-8 ${isDark ? "text-white/70" : "text-slate-600"}`}
-            >
-              Your central hub for class schedules, academic resources, and
-              community connections. Navigate through departments and access all
-              the information you need for your academic journey.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link
-                to="/cst"
-                className="btn-chinese inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white shadow-lg"
-              >
-                <span>View CST Schedule</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                to="/economics-2025"
-                className={`btn-chinese inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium ${
-                  isDark
-                    ? "bg-white/10 hover:bg-white/20 text-white border border-red-500/30"
-                    : "bg-white hover:bg-amber-50 text-slate-900 border border-red-200 shadow-md"
-                }`}
-              >
-                <span>Economics 2025</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
+          }
+          description={t(
+            "home.description",
+            "A helpful hub for class schedules, academic resources, and community connections. Explore departments and find information to support your studies and campus life at NCWU.",
+          )}
+          primaryButtonText={t("home.cstBtn", "CST Schedule")}
+          primaryButtonLink="/cst/class-schedule"
+          secondaryButtonText={t("home.econBtn", "Economics 25 Schedule")}
+          secondaryButtonLink="/economics-2025/class-schedule"
+          tertiaryButtonText={t("home.hskBtn", "HSK Chinese")}
+          tertiaryButtonLink="/hsk"
+          quaternaryButtonText={t("home.hskAppBtn", "HSK App")}
+          quaternaryButtonLink="https://xuetong-chinese-learning-app.onrender.com/"
+          quinaryButtonText={t("home.aiBtn", "Huashui AI")}
+          quinaryButtonLink="https://huashuaii.com/"
+          senaryButtonText={t("home.guidesBtn", "Student Guides")}
+          senaryButtonLink="/student-guides"
+        />
 
-          <div className="grid md:grid-cols-2 gap-6 mb-16 stagger-animation">
-            {sections.map((section, index) => {
-              const Icon = section.icon;
-              return (
-                <Link
-                  key={index}
-                  to={section.link}
-                  className={`card-chinese group relative overflow-hidden rounded-2xl p-6 ${
-                    isDark
-                      ? "bg-gradient-to-br from-red-500/5 to-amber-500/5 hover:from-red-500/10 hover:to-amber-500/10 border border-red-500/20"
-                      : "bg-gradient-to-br from-white to-amber-50/50 hover:shadow-xl border border-red-100 shadow-md"
-                  }`}
-                >
-                  <div className="flex items-start gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="mb-16">
+            <div className="text-center mb-10">
+              <h2
+                className={`text-2xl sm:text-3xl font-bold mb-3 ${isDark ? "text-white" : "text-slate-900"}`}
+              >
+                {t("home.academicDepartments", "Academic Departments")}
+              </h2>
+              <p
+                className={`text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}
+              >
+                {t(
+                  "home.selectDepartment",
+                  "Select your department to access class schedules and resources",
+                )}
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              {sections.map((section, index) => {
+                const Icon = section.icon;
+                return (
+                  <Link
+                    key={index}
+                    to={section.link}
+                    className={`group relative overflow-hidden rounded-2xl transition-all duration-300 hover:scale-[1.01] ${
+                      index === 0
+                        ? "bg-blue-100 hover:bg-blue-200 border-2 border-blue-300"
+                        : "bg-purple-100 hover:bg-purple-200 border-2 border-purple-300"
+                    }`}
+                  >
                     <div
-                      className={`p-3 rounded-xl bg-gradient-to-br ${section.color} text-white transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}
-                    >
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <h3
-                          className={`text-xl font-bold ${isDark ? "text-white" : "text-slate-900"}`}
-                        >
-                          {section.title}
-                        </h3>
-                        <span
-                          className={`text-xs px-2 py-1 rounded-full ${
-                            isDark
-                              ? "bg-white/10 text-white/70"
-                              : "bg-slate-100 text-slate-600"
-                          }`}
-                        >
-                          {section.stats}
-                        </span>
-                      </div>
-                      <p
-                        className={`text-sm ${isDark ? "text-white/60" : "text-slate-600"}`}
-                      >
-                        {section.description}
-                      </p>
-                    </div>
-                    <ArrowRight
-                      className={`w-5 h-5 ${isDark ? "text-white/40 group-hover:text-white/70" : "text-slate-400 group-hover:text-slate-600"} transition-colors`}
+                      className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${section.color}`}
                     />
-                  </div>
-                </Link>
-              );
-            })}
+                    <div className="p-5">
+                      <div className="flex items-center gap-4">
+                        <div
+                          className={`w-12 h-12 rounded-xl bg-gradient-to-br ${section.color} flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform duration-300 flex-shrink-0`}
+                        >
+                          <Icon className="w-6 h-6" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className={`text-lg font-bold text-slate-800`}>
+                              {section.title}
+                            </h3>
+                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                              index === 0
+                                ? "bg-blue-200 text-blue-700"
+                                : "bg-purple-200 text-purple-700"
+                            }`}>
+                              {section.stats}
+                            </span>
+                          </div>
+                          <p className={`text-xs text-slate-600`}>
+                            {section.description}
+                          </p>
+                        </div>
+                        <ArrowRight className={`w-5 h-5 flex-shrink-0 ${
+                          index === 0
+                            ? "text-blue-600 group-hover:text-blue-700 group-hover:translate-x-1"
+                            : "text-purple-600 group-hover:text-purple-700 group-hover:translate-x-1"
+                        } transition-all`} />
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
 
           <div className="mb-16">
             <h2
               className={`text-2xl sm:text-3xl font-bold text-center mb-8 chinese-gradient-text`}
             >
-              Everything You Need
+              {t("home.everythingYouNeed", "Everything You Need")}
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 stagger-animation">
               {features.map((feature, index) => {
@@ -255,6 +270,189 @@ function HomePageContent() {
             </div>
           </div>
 
+          <div className="mb-16">
+            <h2
+              className={`text-2xl sm:text-3xl font-bold text-center mb-8 chinese-gradient-text`}
+            >
+              {t("home.studentResources", "Student Resources")}
+            </h2>
+            <div className="grid sm:grid-cols-3 gap-4">
+              <Link
+                to="/apps-guide"
+                className={`group rounded-2xl p-6 transition-all duration-300 hover:scale-105 ${
+                  isDark
+                    ? "bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-500/30 hover:from-green-500/30 hover:to-emerald-500/30"
+                    : "bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 hover:from-green-100 hover:to-emerald-100 shadow-sm"
+                }`}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white shadow-lg">
+                    <Smartphone className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3
+                      className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}
+                    >
+                      {t("home.essentialApps", "Essential Apps")}
+                    </h3>
+                    <p
+                      className={`text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}
+                    >
+                      {t("home.mustHaveApps", "Must-have apps in China")}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+
+              <Link
+                to="/transportation"
+                className={`group rounded-2xl p-6 transition-all duration-300 hover:scale-105 ${
+                  isDark
+                    ? "bg-gradient-to-br from-teal-500/20 to-cyan-500/20 border border-teal-500/30 hover:from-teal-500/30 hover:to-cyan-500/30"
+                    : "bg-gradient-to-br from-teal-50 to-cyan-50 border border-teal-200 hover:from-teal-100 hover:to-cyan-100 shadow-sm"
+                }`}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center text-white shadow-lg">
+                    <Car className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3
+                      className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}
+                    >
+                      {t("home.transportation", "Transportation")}
+                    </h3>
+                    <p
+                      className={`text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}
+                    >
+                      {t("home.gettingAround", "Getting around Zhengzhou")}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+
+              <Link
+                to="/payment-guide"
+                className={`group rounded-2xl p-6 transition-all duration-300 hover:scale-105 ${
+                  isDark
+                    ? "bg-gradient-to-br from-amber-500/20 to-yellow-500/20 border border-amber-500/30 hover:from-amber-500/30 hover:to-yellow-500/30"
+                    : "bg-gradient-to-br from-amber-50 to-yellow-50 border border-amber-200 hover:from-amber-100 hover:to-yellow-100 shadow-sm"
+                }`}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center text-white shadow-lg">
+                    <CreditCard className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3
+                      className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}
+                    >
+                      {t("home.paymentGuide", "Payment Guide")}
+                    </h3>
+                    <p
+                      className={`text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}
+                    >
+                      {t("home.wechatAlipay", "WeChat Pay, Alipay & banking")}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </div>
+
+          <div className="mb-16">
+            <h2
+              className={`text-2xl sm:text-3xl font-bold text-center mb-8 chinese-gradient-text`}
+            >
+              {t("home.quickLinks", "Quick Links")}
+            </h2>
+            <div className="grid sm:grid-cols-3 gap-4">
+              <Link
+                to="/emergency"
+                className={`group rounded-2xl p-6 transition-all duration-300 hover:scale-105 ${
+                  isDark
+                    ? "bg-gradient-to-br from-red-500/20 to-orange-500/20 border border-red-500/30 hover:from-red-500/30 hover:to-orange-500/30"
+                    : "bg-gradient-to-br from-red-50 to-orange-50 border border-red-200 hover:from-red-100 hover:to-orange-100 shadow-sm"
+                }`}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center text-white shadow-lg">
+                    <AlertTriangle className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3
+                      className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}
+                    >
+                      {t("home.emergencyContacts", "Emergency Contacts")}
+                    </h3>
+                    <p
+                      className={`text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}
+                    >
+                      {t(
+                        "home.importantNumbers",
+                        "Important numbers & safety tips",
+                      )}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+
+              <Link
+                to="/campus-map"
+                className={`group rounded-2xl p-6 transition-all duration-300 hover:scale-105 ${
+                  isDark
+                    ? "bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-500/30 hover:from-blue-500/30 hover:to-cyan-500/30"
+                    : "bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 hover:from-blue-100 hover:to-cyan-100 shadow-sm"
+                }`}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white shadow-lg">
+                    <MapPin className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3
+                      className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}
+                    >
+                      {t("home.campusMap", "Campus Map")}
+                    </h3>
+                    <p
+                      className={`text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}
+                    >
+                      {t("home.findYourWay", "Find your way around campus")}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+
+              <Link
+                to="/events"
+                className={`group rounded-2xl p-6 transition-all duration-300 hover:scale-105 ${
+                  isDark
+                    ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/30 hover:from-purple-500/30 hover:to-pink-500/30"
+                    : "bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 hover:from-purple-100 hover:to-pink-100 shadow-sm"
+                }`}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg">
+                    <Bell className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3
+                      className={`font-semibold ${isDark ? "text-white" : "text-slate-900"}`}
+                    >
+                      {t("home.eventsAnnouncements", "Events & Announcements")}
+                    </h3>
+                    <p
+                      className={`text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}
+                    >
+                      {t("home.stayUpdated", "Stay updated with campus news")}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </div>
+
           <div
             className={`card-chinese rounded-2xl p-8 ${isDark ? "bg-gradient-to-br from-red-500/10 to-amber-500/10 border border-red-500/20" : "bg-gradient-to-br from-white to-amber-50/50 border border-red-100 shadow-md"}`}
           >
@@ -286,31 +484,7 @@ function HomePageContent() {
         </div>
       </main>
 
-      <footer
-        className={`relative z-10 border-t ${isDark ? "border-red-500/20 bg-red-500/5" : "border-amber-200 bg-amber-50/50"} mt-12`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <img
-                src={ncwuLogo}
-                alt="NCWU Logo"
-                className="w-8 h-8 rounded-lg object-contain transition-transform duration-300 hover:scale-110"
-              />
-              <p
-                className={`text-sm ${isDark ? "text-red-300/50" : "text-red-700"}`}
-              >
-                NCWU International Student Community
-              </p>
-            </div>
-            <p
-              className={`text-sm ${isDark ? "text-red-400/40" : "text-red-600"}`}
-            >
-              © 2024 NCWU. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

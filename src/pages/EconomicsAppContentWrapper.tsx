@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { FilterState } from '@/types/schedule';
-import { scheduleData, totalWeeks, subjectsList } from '@/data/scheduleData';
+import { economicsScheduleData, economicsTotalWeeks, economicsSubjectsList } from '@/data/economicsScheduleData';
 import { useScheduleFilter } from '@/hooks/useScheduleFilter';
 import { FilterBar } from '@/components/FilterBar';
 import { ScheduleGrid } from '@/components/ScheduleGrid';
@@ -12,7 +12,7 @@ import { TodaySchedule } from '@/components/TodaySchedule';
 import { BookOpen } from 'lucide-react';
 import type { ClassSession } from '@/types/schedule';
 
-export default function AppContentWrapper() {
+export default function EconomicsAppContentWrapper() {
   const [filters, setFilters] = useState<FilterState>({
     search: '',
     week: 'all',
@@ -28,17 +28,17 @@ export default function AppContentWrapper() {
   const [sharedClassPopupOpen, setSharedClassPopupOpen] = useState(false);
   const [sharedClass, setSharedClass] = useState<ClassSession | null>(null);
 
-  const filteredClasses = useScheduleFilter(scheduleData, filters);
+  const filteredClasses = useScheduleFilter(economicsScheduleData, filters);
   const isDark = resolvedTheme === 'dark';
 
-  const uniqueSubjects = Array.from(new Set(scheduleData.map(c => c.subject)));
+  const uniqueSubjects = Array.from(new Set(economicsScheduleData.map(c => c.subject)));
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const classId = params.get('class');
     
     if (classId) {
-      const foundClass = scheduleData.find(c => c.id === classId);
+      const foundClass = economicsScheduleData.find(c => c.id === classId);
       if (foundClass) {
         setSharedClass(foundClass);
         setSharedClassPopupOpen(true);
@@ -66,26 +66,26 @@ export default function AppContentWrapper() {
   return (
     <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {showSubjects ? (
-        <SubjectsSection onSubjectClick={handleSubjectClick} subjectsList={subjectsList} scheduleData={scheduleData} />
+        <SubjectsSection onSubjectClick={handleSubjectClick} subjectsList={economicsSubjectsList} scheduleData={economicsScheduleData} />
       ) : (
         <>
           <div className="mb-6">
             <FilterBar 
               filters={filters} 
               onFilterChange={setFilters} 
-              totalWeeks={totalWeeks}
-              totalClasses={scheduleData.length}
+              totalWeeks={economicsTotalWeeks}
+              totalClasses={economicsScheduleData.length}
               filteredCount={filteredClasses.length}
             />
           </div>
-          {!filters.search && filters.week === 'all' && filters.shift === 'all' && filters.day === 'all' && <TodaySchedule scheduleData={scheduleData} />}
+          {!filters.search && filters.week === 'all' && filters.shift === 'all' && filters.day === 'all' && <TodaySchedule scheduleData={economicsScheduleData} />}
 
           <button
             onClick={() => setShowSubjects(true)}
             className={`sm:hidden w-full mb-6 p-4 rounded-2xl backdrop-blur-xl ${isDark ? 'bg-white/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'} border flex items-center justify-between`}
           >
             <div className="flex items-center gap-3">
-              <BookOpen className={`w-5 h-5 ${isDark ? 'text-indigo-300' : 'text-indigo-600'}`} />
+              <BookOpen className={`w-5 h-5 ${isDark ? 'text-red-300' : 'text-red-600'}`} />
               <span className="font-medium">Browse Subjects</span>
             </div>
             <span className={isDark ? 'text-white/50' : 'text-slate-500'}>{uniqueSubjects.length} courses</span>

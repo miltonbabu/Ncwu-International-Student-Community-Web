@@ -1,21 +1,49 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ThemeProvider, useTheme } from "@/components/ThemeProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { ChevronRight, Home } from "lucide-react";
 import { Toaster } from "sonner";
 import ncwuLogo from "@/assets/ncwu-logo.png";
+import { StudentVerification, isStudentVerified } from "@/components/StudentVerification";
 
-// Import the original App content
 import AppContent from "./AppContentWrapper";
 
 function ClassSchedulePageContent() {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
+  const [isVerified, setIsVerified] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {
+    const verified = isStudentVerified();
+    setIsVerified(verified);
+    setCheckingAuth(false);
     document.title = "CS 2023 Class Schedule - NCWU";
   }, []);
+
+  const handleVerified = () => {
+    setIsVerified(true);
+  };
+
+  if (checkingAuth) {
+    return (
+      <div className={`min-h-screen flex items-center justify-center ${isDark ? "bg-slate-950" : "bg-slate-50"}`}>
+        <div className="flex flex-col items-center gap-4">
+          <div className={`w-12 h-12 border-4 ${isDark ? "border-red-500/30 border-t-red-500" : "border-red-200 border-t-red-500"} rounded-full animate-spin`} />
+          <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}>Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isVerified) {
+    return (
+      <div className={`min-h-screen ${isDark ? "bg-slate-950" : "bg-slate-50"}`}>
+        <StudentVerification isDark={isDark} onVerified={handleVerified} />
+      </div>
+    );
+  }
 
   return (
     <div

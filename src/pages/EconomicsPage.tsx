@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ThemeProvider, useTheme } from "@/components/ThemeProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useRTL } from "@/hooks/useRTL";
 import {
   Calendar,
   BookOpen,
@@ -12,37 +14,40 @@ import {
   TrendingUp,
   BarChart3,
   ArrowRight,
+  Clock,
 } from "lucide-react";
 import ncwuLogo from "@/assets/ncwu-logo.png";
 
 function EconomicsPageContent() {
+  const { t } = useTranslation();
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
+  useRTL();
 
   useEffect(() => {
-    document.title = "Economics 2025 - NCWU";
-  }, []);
+    document.title = `${t("economics.title", "Economics 2025")} - NCWU`;
+  }, [t]);
 
   const features = [
     {
       icon: Calendar,
-      title: "Class Schedule",
-      description: "View your weekly class timetable",
+      title: t("economics.classSchedule", "Class Schedule"),
+      description: t("economics.classScheduleDesc", "View your weekly class timetable"),
     },
     {
       icon: BookOpen,
-      title: "Course Materials",
-      description: "Access study resources and materials",
+      title: t("economics.courseMaterials", "Course Materials"),
+      description: t("economics.courseMaterialsDesc", "Access study resources and materials"),
     },
     {
       icon: TrendingUp,
-      title: "Economic Analysis",
-      description: "Learn economic theories and applications",
+      title: t("economics.economicAnalysis", "Economic Analysis"),
+      description: t("economics.economicAnalysisDesc", "Learn economic theories and applications"),
     },
     {
       icon: BarChart3,
-      title: "Data & Statistics",
-      description: "Work with economic data and models",
+      title: t("economics.dataStatistics", "Data & Statistics"),
+      description: t("economics.dataStatisticsDesc", "Work with economic data and models"),
     },
   ];
 
@@ -75,11 +80,11 @@ function EconomicsPageContent() {
 
   const batches = [
     {
-      title: "Economics 2025",
-      description: "Class Schedule for the 2025 batch of Economics students.",
+      title: t("economics.title", "Economics 2025"),
+      description: t("economics.scheduleDescription", "Class Schedule for the 2025 batch of Economics students."),
       link: "/economics-2025/class-schedule",
-      semester: "2025 Schedule",
-      year: "2025 Batch",
+      semester: t("economics.semester", "2025 Schedule"),
+      year: t("economics.year", "2025 Batch"),
     },
   ];
 
@@ -202,55 +207,48 @@ function EconomicsPageContent() {
 
           <div className="mb-12">
             <h2 className={`text-2xl font-bold mb-6 chinese-gradient-text`}>
-              Available Batches
+              Class Schedule
             </h2>
-            <div className="grid md:grid-cols-2 gap-6 stagger-animation">
+            <div className="grid md:grid-cols-2 gap-6">
               {batches.map((batch, index) => (
                 <Link
                   key={index}
                   to={batch.link}
-                  className={`card-chinese group relative overflow-hidden rounded-2xl p-6 ${
+                  className={`group relative overflow-hidden rounded-2xl p-6 transition-all duration-300 ${
                     isDark
-                      ? "bg-gradient-to-br from-red-500/10 to-amber-500/10 hover:from-red-500/20 hover:to-amber-500/20 border border-red-500/20"
-                      : "bg-gradient-to-br from-white to-amber-50/50 hover:shadow-xl border border-red-100 shadow-md"
+                      ? "bg-slate-800 hover:bg-slate-700 border-2 border-red-500 hover:border-red-400"
+                      : "bg-white hover:bg-red-50 border-2 border-red-500 hover:border-red-600 shadow-lg hover:shadow-xl"
                   }`}
                 >
                   <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h3
-                        className={`text-2xl font-bold mb-2 ${isDark ? "text-white" : "text-slate-900"}`}
-                      >
-                        {batch.title}
-                      </h3>
-                      <p
-                        className={`text-sm ${isDark ? "text-red-100/60" : "text-slate-600"}`}
-                      >
-                        {batch.description}
-                      </p>
+                    <div className="flex items-center gap-3">
+                      <div className={`p-2.5 rounded-xl ${isDark ? "bg-red-500" : "bg-red-500"}`}>
+                        <Calendar className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <h3 className={`text-xl font-bold ${isDark ? "text-white" : "text-slate-900"}`}>
+                          {batch.title}
+                        </h3>
+                      </div>
                     </div>
                     <ArrowRight
-                      className={`w-6 h-6 ${isDark ? "text-red-400/50 group-hover:text-red-400" : "text-red-500 group-hover:text-red-600"} transition-colors`}
+                      className={`w-5 h-5 ${isDark ? "text-red-400 group-hover:text-red-300" : "text-red-500 group-hover:text-red-600"} transition-colors`}
                     />
                   </div>
-                  <div className="flex items-center gap-4">
-                    <span
-                      className={`inline-flex items-center gap-1 text-xs px-3 py-1 rounded-full ${
-                        isDark
-                          ? "bg-red-500/20 text-red-300 border border-red-500/30"
-                          : "bg-red-100 text-red-700 border border-red-200"
-                      }`}
-                    >
+                  <p className={`text-sm mb-4 ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+                    {batch.description}
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg ${
+                      isDark ? "bg-red-500 text-white" : "bg-red-500 text-white"
+                    }`}>
                       <Calendar className="w-3 h-3" />
                       {batch.semester}
                     </span>
-                    <span
-                      className={`inline-flex items-center gap-1 text-xs px-3 py-1 rounded-full ${
-                        isDark
-                          ? "bg-pink-500/20 text-pink-300 border border-pink-500/30"
-                          : "bg-pink-100 text-pink-700 border border-pink-200"
-                      }`}
-                    >
-                      <Users className="w-3 h-3" />
+                    <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg ${
+                      isDark ? "bg-amber-500 text-white" : "bg-amber-500 text-white"
+                    }`}>
+                      <Clock className="w-3 h-3" />
                       {batch.year}
                     </span>
                   </div>
