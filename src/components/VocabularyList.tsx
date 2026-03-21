@@ -88,6 +88,34 @@ export function VocabularyList({ words, title, onClose }: VocabularyListProps) {
     return colors[pos] || "bg-slate-500/20 text-slate-300 border-slate-500/30";
   };
 
+  const getNumberStyle = (id: number, isDark: boolean) => {
+    const gradients = [
+      { from: "from-rose-500", to: "to-pink-600", bg: "bg-rose-500/20", text: "text-rose-300" },
+      { from: "from-orange-500", to: "to-amber-600", bg: "bg-orange-500/20", text: "text-orange-300" },
+      { from: "from-amber-500", to: "to-yellow-600", bg: "bg-amber-500/20", text: "text-amber-300" },
+      { from: "from-lime-500", to: "to-green-600", bg: "bg-lime-500/20", text: "text-lime-300" },
+      { from: "from-emerald-500", to: "to-teal-600", bg: "bg-emerald-500/20", text: "text-emerald-300" },
+      { from: "from-cyan-500", to: "to-sky-600", bg: "bg-cyan-500/20", text: "text-cyan-300" },
+      { from: "from-blue-500", to: "to-indigo-600", bg: "bg-blue-500/20", text: "text-blue-300" },
+      { from: "from-violet-500", to: "to-purple-600", bg: "bg-violet-500/20", text: "text-violet-300" },
+      { from: "from-fuchsia-500", to: "to-pink-600", bg: "bg-fuchsia-500/20", text: "text-fuchsia-300" },
+      { from: "from-pink-500", to: "to-rose-600", bg: "bg-pink-500/20", text: "text-pink-300" },
+    ];
+    const index = (id - 1) % gradients.length;
+    const gradient = gradients[index];
+    
+    if (isDark) {
+      return {
+        container: `${gradient.bg} ${gradient.text}`,
+        number: id
+      };
+    }
+    return {
+      container: `bg-gradient-to-br ${gradient.from} ${gradient.to} text-white`,
+      number: id
+    };
+  };
+
   return (
     <div className="w-full">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -168,13 +196,9 @@ export function VocabularyList({ words, title, onClose }: VocabularyListProps) {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3 flex-1">
                   <div
-                    className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm ${
-                      isDark
-                        ? "bg-gradient-to-br from-emerald-500/30 to-teal-500/30 text-emerald-300"
-                        : "bg-gradient-to-br from-emerald-500 to-teal-600 text-white"
-                    }`}
+                    className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm ${getNumberStyle(word.id, isDark).container}`}
                   >
-                    {word.id}
+                    {getNumberStyle(word.id, isDark).number}
                   </div>
                   <button
                     onClick={(e) => {
