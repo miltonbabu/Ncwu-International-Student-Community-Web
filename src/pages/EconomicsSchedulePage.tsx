@@ -97,7 +97,7 @@ function EconomicsSchedulePageContent() {
                 <p
                   className={`text-xs font-medium ${isDark ? "text-red-300/60" : "text-red-700"}`}
                 >
-                  Class Schedule
+                  2026 2nd Semester - Class Schedule
                 </p>
               </div>
             </div>

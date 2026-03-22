@@ -156,7 +156,7 @@ export function EconomicsStudentVerification({
                 id="studentId"
                 value={studentId}
                 onChange={(e) => setStudentId(e.target.value)}
-                placeholder="e.g., 2025LXSB0010"
+                placeholder="2025LXSB0010"
                 className={`w-full pl-10 pr-4 py-3 rounded-xl border transition-all ${
                   isDark
                     ? "bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 focus:border-red-500 focus:ring-red-500/20"
