@@ -27,6 +27,8 @@ interface FooterSection {
   links: FooterLink[];
 }
 
+// Footer is designed for 4 sections layout
+
 export function Footer() {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
@@ -37,26 +39,41 @@ export function Footer() {
       title: "Quick Links",
       links: [
         { label: "Home", to: "/" },
-        { label: "CST Schedule", to: "/cst" },
-        { label: "Economics 2025", to: "/economics-2025" },
-        { label: "HSK Learning", to: "/hsk" },
+        { label: "CST Department", to: "/cst" },
+        { label: "Economics Department", to: "/economics" },
+        { label: "HSK Chinese Learning", to: "/hsk" },
+        { label: "Student Guides", to: "/guides" },
       ],
     },
     {
       title: "Resources",
       links: [
-        { label: "HSK Web App", href: "https://xuetong-chinese-learning-app.onrender.com/", external: true },
-        { label: "Class Schedule", to: "/cst/class-schedule" },
-        { label: "Economics Schedule", to: "/economics-2025/class-schedule" },
+        { label: "CST Class Schedule", to: "/cst/schedule/2023" },
+        { label: "Economics Schedule", to: "/economics/schedule" },
+        { label: "Campus Map", to: "/campus-map" },
+        { label: "Transportation Guide", to: "/transportation" },
+        { label: "Payment Guide", to: "/payment-guide" },
       ],
     },
     {
-      title: "Policies",
+      title: "Student Life",
       links: [
-        { label: "Terms of Use", to: "#" },
-        { label: "Privacy Policy", to: "#" },
-        { label: "Community Guidelines", to: "#" },
+        { label: "Essential Apps", to: "/apps" },
+        { label: "Emergency Contacts", to: "/emergency" },
+        { label: "Events & Activities", to: "/events" },
+      ],
+    },
+    {
+      title: "Support",
+      links: [
         { label: "Contact Us", to: "#" },
+        { label: "Community Guidelines", to: "#" },
+        { label: "Privacy Policy", to: "#" },
+        {
+          label: "Official NCWU Website",
+          href: "http://www.ncwu.edu.cn/",
+          external: true,
+        },
       ],
     },
   ];
@@ -64,23 +81,28 @@ export function Footer() {
   const rules = [
     {
       title: "Academic Integrity",
-      description: "All academic content shared on this platform must adhere to NCWU's academic integrity policies. Plagiarism, cheating, or any form of academic dishonesty is strictly prohibited.",
+      description:
+        "All academic content shared on this platform must adhere to NCWU's academic integrity policies. Plagiarism, cheating, or any form of academic dishonesty is strictly prohibited.",
     },
     {
       title: "Respectful Communication",
-      description: "Users must maintain respectful and professional communication at all times. Harassment, discrimination, or offensive language will not be tolerated.",
+      description:
+        "Users must maintain respectful and professional communication at all times. Harassment, discrimination, or offensive language will not be tolerated.",
     },
     {
       title: "Data Privacy",
-      description: "Personal information shared on this platform should be limited. Do not share sensitive personal data, passwords, or financial information.",
+      description:
+        "Personal information shared on this platform should be limited. Do not share sensitive personal data, passwords, or financial information.",
     },
     {
       title: "Content Usage",
-      description: "All content provided is for educational purposes only. Redistribution or commercial use of materials without proper authorization is prohibited.",
+      description:
+        "All content provided is for educational purposes only. Redistribution or commercial use of materials without proper authorization is prohibited.",
     },
     {
       title: "Account Responsibility",
-      description: "Users are responsible for maintaining the security of their accounts and for all activities that occur under their account.",
+      description:
+        "Users are responsible for maintaining the security of their accounts and for all activities that occur under their account.",
     },
   ];
 
@@ -119,10 +141,15 @@ export function Footer() {
                   isDark ? "text-amber-300/70" : "text-amber-700/80"
                 }`}
               >
-                This is an <strong>unofficial</strong> website created by and for the international student community at NCWU. 
-                This website is <strong>not affiliated with, endorsed by, or officially connected to</strong> North China University 
-                of Water Resources and Electric Power. All information provided is for educational and informational purposes only. 
-                For official university information, please visit the{" "}
+                This is an <strong>unofficial</strong> website created by and
+                for the international student community at NCWU. This website is{" "}
+                <strong>
+                  not affiliated with, endorsed by, or officially connected to
+                </strong>{" "}
+                North China University of Water Resources and Electric Power.
+                All information provided is for educational and informational
+                purposes only. For official university information, please visit
+                the{" "}
                 <a
                   href="http://www.ncwu.edu.cn/"
                   target="_blank"
@@ -142,7 +169,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 py-8">
           <div className="md:col-span-1">
             <div className="flex items-center gap-3 mb-4">
               <img
@@ -172,8 +199,8 @@ export function Footer() {
                 isDark ? "text-white/60" : "text-slate-600"
               }`}
             >
-              A community-driven platform for international students at NCWU to access resources, 
-              schedules, and learning materials.
+              A community-driven platform for international students at NCWU to
+              access resources, schedules, and learning materials.
             </p>
             <div className="flex items-center gap-2">
               <a
@@ -345,7 +372,11 @@ export function Footer() {
                 }`}
               />
               <span className={isDark ? "text-white/50" : "text-slate-500"}>
-                Last updated: {new Date().toLocaleDateString("en-US", { year: "numeric", month: "long" })}
+                Last updated:{" "}
+                {new Date().toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                })}
               </span>
             </div>
             <p
@@ -353,8 +384,9 @@ export function Footer() {
                 isDark ? "text-white/50" : "text-slate-500"
               }`}
             >
-              © {new Date().getFullYear()} NCWU International Student Community. 
-              Made with <Heart className="w-4 h-4 inline text-red-500" /> by students, for students.
+              © {new Date().getFullYear()} NCWU International Student Community.
+              Made with <Heart className="w-4 h-4 inline text-red-500" /> by
+              students, for students.
             </p>
           </div>
         </div>
