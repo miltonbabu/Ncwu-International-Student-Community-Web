@@ -1,5 +1,5 @@
 # Robots.txt for NCWU International Student Community
-# https://ncwu-community.com
+# https://www.ncwu.site
 
 # Allow all search engines
 User-agent: *
@@ -16,7 +16,7 @@ Disallow: /api/
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://ncwu-community.com/sitemap.xml
+Sitemap: https://www.ncwu.site/sitemap.xml
 
 # Specific rules for major search engines
 
