@@ -10,6 +10,7 @@ import { SharedClassPopup } from '@/components/SharedClassPopup';
 import { ThemeProvider, useTheme } from '@/components/ThemeProvider';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { TodaySchedule } from '@/components/TodaySchedule';
+import { SEO, pageSEO } from '@/components/SEO';
 import { Calendar, BookOpen, Menu, Search, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Toaster } from 'sonner';
@@ -52,6 +53,12 @@ function AppContent() {
     }
   }, []);
 
+  const breadcrumbs = [
+    { name: 'Home', url: 'https://ncwu-community.com/' },
+    { name: 'CST Department', url: 'https://ncwu-community.com/cst' },
+    { name: 'Class Schedule', url: 'https://ncwu-community.com/cst/schedule' },
+  ];
+
   const handleSubjectClick = (subject: string) => {
     setFilters({ ...filters, search: subject });
     setShowSubjects(false);
@@ -76,6 +83,10 @@ function AppContent() {
 
   return (
     <div className={`min-h-screen bg-gradient-to-br ${isDark ? 'from-slate-900 via-indigo-950 to-slate-900' : 'from-slate-100 via-indigo-100 to-slate-100'}`}>
+      <SEO 
+        {...pageSEO.cstSchedule}
+        breadcrumbs={breadcrumbs}
+      />
       <Toaster 
         position="top-center" 
         toastOptions={{
