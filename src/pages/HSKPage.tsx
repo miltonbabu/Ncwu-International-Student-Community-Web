@@ -7,6 +7,7 @@ import { Navigation } from "@/components/Navigation";
 import { VocabularyList } from "@/components/VocabularyList";
 import { hsk1Vocabulary } from "@/data/hsk1Vocabulary";
 import { hsk2Vocabulary } from "@/data/hsk2Vocabulary";
+import { hsk3Vocabulary } from "@/data/hsk3Vocabulary";
 import ncwuLogo from "@/assets/ncwu-logo.png";
 import {
   BookOpen,
@@ -21,7 +22,7 @@ import {
   FileText,
 } from "lucide-react";
 
-type ViewState = "main" | "hsk1" | "hsk2";
+type ViewState = "main" | "hsk1" | "hsk2" | "hsk3";
 
 function HSKPageContent() {
   const { resolvedTheme } = useTheme();
@@ -52,6 +53,7 @@ function HSKPageContent() {
       description: "Pre-Intermediate - 600 words",
       color: "from-purple-500 to-violet-600",
       icon: PenTool,
+      action: () => setCurrentView("hsk3"),
     },
     {
       level: "HSK 4",
@@ -328,6 +330,127 @@ function HSKPageContent() {
               </div>
               <p
                 className={`text-sm ${isDark ? "text-blue-400/40" : "text-blue-600"}`}
+              >
+                © 2024 NCWU. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </footer>
+      </div>
+    );
+  }
+
+  if (currentView === "hsk3") {
+    return (
+      <div
+        className={`min-h-screen relative overflow-hidden chinese-pattern-bg ${isDark ? "bg-slate-950" : "bg-slate-50"}`}
+      >
+        <div className="fixed inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" />
+          <div
+            className="absolute bottom-0 right-1/4 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl animate-pulse"
+            style={{ animationDelay: "1s" }}
+          />
+        </div>
+
+        <header
+          className={`relative z-50 sticky top-0 backdrop-blur-xl ${isDark ? "bg-slate-950/80 border-purple-500/20" : "bg-white/80 border-purple-200"} border-b`}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              <div className="flex items-center gap-3">
+                <img
+                  src={ncwuLogo}
+                  alt="NCWU Logo"
+                  className="w-10 h-10 rounded-xl object-contain transition-transform duration-300 hover:scale-110"
+                />
+                <div className="hidden sm:block">
+                  <h1 className="text-lg font-bold bg-gradient-to-r from-purple-500 to-violet-500 bg-clip-text text-transparent">
+                    HSK 3 Vocabulary
+                  </h1>
+                  <p
+                    className={`text-xs font-medium ${isDark ? "text-purple-300/60" : "text-purple-700"}`}
+                  >
+                    NCWU International
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => setCurrentView("main")}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all ${
+                    isDark
+                      ? "bg-white/10 hover:bg-white/20 text-white"
+                      : "bg-slate-100 hover:bg-slate-200 text-slate-900"
+                  }`}
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span className="hidden sm:inline">Back</span>
+                </button>
+                <ThemeToggle />
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div
+          className={`relative z-10 border-b ${isDark ? "border-purple-500/10 bg-purple-500/5" : "border-purple-200 bg-purple-50"}`}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <nav className="flex items-center gap-2 text-sm">
+              <Link to="/" className="nav-link-chinese flex items-center gap-1">
+                <Home className="w-4 h-4" />
+                <span>Home</span>
+              </Link>
+              <ChevronRight
+                className={`w-4 h-4 ${isDark ? "text-purple-500/40" : "text-purple-400"}`}
+              />
+              <button
+                onClick={() => setCurrentView("main")}
+                className="nav-link-chinese"
+              >
+                HSK
+              </button>
+              <ChevronRight
+                className={`w-4 h-4 ${isDark ? "text-purple-500/40" : "text-purple-400"}`}
+              />
+              <span
+                className={`font-medium ${isDark ? "text-purple-300" : "text-purple-900"}`}
+              >
+                HSK 3 Vocabulary
+              </span>
+            </nav>
+          </div>
+        </div>
+
+        <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <VocabularyList
+            words={hsk3Vocabulary}
+            title="HSK 3 Vocabulary"
+            onClose={() => setCurrentView("main")}
+          />
+        </main>
+
+        <footer
+          className={`relative z-10 border-t ${isDark ? "border-purple-500/20 bg-purple-500/5" : "border-purple-200 bg-purple-50/50"} mt-12`}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <img
+                  src={ncwuLogo}
+                  alt="NCWU Logo"
+                  className="w-8 h-8 rounded-lg object-contain transition-transform duration-300 hover:scale-110"
+                />
+                <p
+                  className={`text-sm ${isDark ? "text-purple-300/50" : "text-purple-700"}`}
+                >
+                  NCWU International Student Community
+                </p>
+              </div>
+              <p
+                className={`text-sm ${isDark ? "text-purple-400/40" : "text-purple-600"}`}
               >
                 © 2024 NCWU. All rights reserved.
               </p>
