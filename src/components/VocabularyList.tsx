@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTheme } from "./ThemeProvider";
-import { Search, Volume2, ChevronDown, BookOpen, X } from "lucide-react";
+import { Search, Volume2, ChevronDown, BookOpen, X, ChevronLeft, ChevronRight } from "lucide-react";
 import type { VocabularyWord } from "@/data/hsk1Vocabulary";
 
 interface VocabularyListProps {
@@ -8,6 +8,8 @@ interface VocabularyListProps {
   title: string;
   onClose?: () => void;
 }
+
+const WORDS_PER_PAGE = 20;
 
 function HighlightedSentence({ 
   sentence, 
@@ -47,6 +49,7 @@ export function VocabularyList({ words, title, onClose }: VocabularyListProps) {
   const isDark = resolvedTheme === "dark";
   const [searchTerm, setSearchTerm] = useState("");
   const [expandedWord, setExpandedWord] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const filteredWords = words.filter(
     (word) =>
@@ -54,6 +57,11 @@ export function VocabularyList({ words, title, onClose }: VocabularyListProps) {
       word.pinyin.toLowerCase().includes(searchTerm.toLowerCase()) ||
       word.english.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const totalPages = Math.ceil(filteredWords.length / WORDS_PER_PAGE);
+  const startIndex = (currentPage - 1) * WORDS_PER_PAGE;
+  const endIndex = startIndex + WORDS_PER_PAGE;
+  const currentWords = filteredWords.slice(startIndex, endIndex);
 
   const toggleExpand = (id: number) => {
     setExpandedWord(expandedWord === id ? null : id);
@@ -66,6 +74,114 @@ export function VocabularyList({ words, title, onClose }: VocabularyListProps) {
       utterance.rate = 0.8;
       speechSynthesis.speak(utterance);
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    setExpandedWord(null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const renderPagination = () => {
+    if (totalPages <= 1) return null;
+
+    const pages = [];
+    const maxVisiblePages = 7;
+    
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+    
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    return (
+      <div className={`flex items-center justify-center gap-2 mt-8 pt-6 border-t ${isDark ? "border-white/10" : "border-slate-200"}`}>
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={`p-2 rounded-lg transition-all ${
+            currentPage === 1
+              ? "opacity-50 cursor-not-allowed"
+              : isDark
+                ? "hover:bg-white/10 text-white"
+                : "hover:bg-slate-100 text-slate-900"
+          }`}
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+
+        {startPage > 1 && (
+          <>
+            <button
+              onClick={() => handlePageChange(1)}
+              className={`w-10 h-10 rounded-lg font-medium transition-all ${
+                isDark
+                  ? "hover:bg-white/10 text-white"
+                  : "hover:bg-slate-100 text-slate-900"
+              }`}
+            >
+              1
+            </button>
+            {startPage > 2 && (
+              <span className={`px-2 ${isDark ? "text-white/40" : "text-slate-400"}`}>...</span>
+            )}
+          </>
+        )}
+
+        {pages.map((page) => (
+          <button
+            key={page}
+            onClick={() => handlePageChange(page)}
+            className={`w-10 h-10 rounded-lg font-medium transition-all ${
+              page === currentPage
+                ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white"
+                : isDark
+                  ? "hover:bg-white/10 text-white"
+                  : "hover:bg-slate-100 text-slate-900"
+            }`}
+          >
+            {page}
+          </button>
+        ))}
+
+        {endPage < totalPages && (
+          <>
+            {endPage < totalPages - 1 && (
+              <span className={`px-2 ${isDark ? "text-white/40" : "text-slate-400"}`}>...</span>
+            )}
+            <button
+              onClick={() => handlePageChange(totalPages)}
+              className={`w-10 h-10 rounded-lg font-medium transition-all ${
+                isDark
+                  ? "hover:bg-white/10 text-white"
+                  : "hover:bg-slate-100 text-slate-900"
+              }`}
+            >
+              {totalPages}
+            </button>
+          </>
+        )}
+
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className={`p-2 rounded-lg transition-all ${
+            currentPage === totalPages
+              ? "opacity-50 cursor-not-allowed"
+              : isDark
+                ? "hover:bg-white/10 text-white"
+                : "hover:bg-slate-100 text-slate-900"
+          }`}
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      </div>
+    );
   };
 
   const getPartOfSpeechColor = (pos: string) => {
@@ -158,7 +274,10 @@ export function VocabularyList({ words, title, onClose }: VocabularyListProps) {
           type="text"
           placeholder="Search by Chinese, Pinyin, or English..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setCurrentPage(1);
+          }}
           className={`w-full pl-12 pr-4 py-3 rounded-xl text-base transition-all ${
             isDark
               ? "bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-emerald-500/50"
@@ -180,7 +299,7 @@ export function VocabularyList({ words, title, onClose }: VocabularyListProps) {
       </div>
 
       <div className="grid gap-3">
-        {filteredWords.map((word) => (
+        {currentWords.map((word) => (
           <div
             key={word.id}
             className={`rounded-xl overflow-hidden transition-all duration-300 ${
@@ -350,6 +469,8 @@ export function VocabularyList({ words, title, onClose }: VocabularyListProps) {
           </button>
         </div>
       )}
+
+      {renderPagination()}
     </div>
   );
 }
