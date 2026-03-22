@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ThemeProvider, useTheme } from "@/components/ThemeProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -6,19 +6,46 @@ import { ChevronRight, Home } from "lucide-react";
 import { Toaster } from "sonner";
 import ncwuLogo from "@/assets/ncwu-logo.png";
 import EconomicsAppContentWrapper from "./EconomicsAppContentWrapper";
+import {
+  EconomicsStudentVerification,
+  isEconomicsStudentVerified,
+} from "@/components/EconomicsStudentVerification";
 
 function EconomicsSchedulePageContent() {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
+  const [isVerified, setIsVerified] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
     document.title = "Economics 2025 Class Schedule - NCWU";
+    
+    const verified = isEconomicsStudentVerified();
+    setIsVerified(verified);
+    setIsChecking(false);
   }, []);
+
+  const handleVerified = () => {
+    setIsVerified(true);
+  };
+
+  if (isChecking) {
+    return (
+      <div
+        className={`min-h-screen flex items-center justify-center ${isDark ? "bg-slate-950" : "bg-slate-50"}`}
+      >
+        <div className="w-8 h-8 border-4 border-red-500/30 border-t-red-500 rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div
       className={`min-h-screen relative overflow-hidden chinese-pattern-bg ${isDark ? "bg-slate-950" : "bg-slate-50"}`}
     >
+      {!isVerified && (
+        <EconomicsStudentVerification isDark={isDark} onVerified={handleVerified} />
+      )}
       <Toaster
         position="top-center"
         toastOptions={{
